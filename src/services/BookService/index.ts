@@ -70,8 +70,9 @@ export class BookService implements BookServiceModel {
     else
       this.$errorService.throwError(ErrorMsgModel.ELEMENT_COULD_NOT_BE_FOUND, "кнопку для открытия списка глав");
 
+    try {
     // Находим див в котором выводятся все доступные команды перевода
-    const teamsDiv = await page.waitForSelector("div.team-list");
+    const teamsDiv = await page.waitForSelector("div.team-list", {timeout: 2000});
 
     if (teamsDiv) {
       // Если таковой есть - получаем все варианты, даем выбор в промпту
@@ -106,8 +107,9 @@ export class BookService implements BookServiceModel {
         this.$errorService.throwError(
           ErrorMsgModel.ELEMENT_COULD_NOT_BE_FOUND,
           "выбраную команду"
-        );  
+        );
     }
+  } catch {}
 
     // Собираю все главы с называниями в один массив
     // Со страницы книги, простым путем, это сделать не получится
